@@ -22,3 +22,6 @@ dynamic = ["version", "description"]
 
 [project.urls]
 Home = "https://github.com/Edward-Knight/landlock"
+
+[tool.isort]
+profile = "black"

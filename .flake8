@@ -1,0 +1,5 @@
+# Waiting for pyproject.toml support: https://github.com/PyCQA/flake8/issues/234
+
+[flake8]
+max-line-length = 88
+extend-ignore = E203
