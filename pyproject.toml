@@ -5,6 +5,7 @@ build-backend = "flit_core.buildapi"
 [project]
 name = "landlock"
 authors = [{name = "Edward Knight", email = "edw@rdknig.ht"}]
+readme = "README.md"
 license = {file = "LICENSE"}
 classifiers = ["License :: OSI Approved :: MIT License"]
 dynamic = ["version", "description"]

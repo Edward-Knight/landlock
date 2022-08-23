@@ -1,6 +1,7 @@
 import ctypes
 import dataclasses
 import os
+from typing import Optional
 
 from landlock import LandlockError
 from landlock.plumbing import (
@@ -28,7 +29,10 @@ class Ruleset:
         )
         object.__setattr__(self, "_fd", fd)
 
-    def allow(self, path, rules):
+    def allow(self, path, rules: Optional[FSAccess] = None):
+        if rules is None:
+            rules = self.restrict_rules
+
         fd = os.open(path, flags=os.O_PATH)
         try:
             rule_attr = PathBeneathAttr(rules, fd)
