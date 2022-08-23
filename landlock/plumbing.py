@@ -3,7 +3,6 @@ import ctypes
 import enum
 import errno
 import functools
-import operator
 import os
 import platform
 from typing import Callable, Optional, Tuple, TypeVar
@@ -23,9 +22,13 @@ T = TypeVar("T")
 
 
 class FSAccess(enum.IntFlag):
-    """These flags enable one to restrict a sandboxed process to a set of actions on files and directories.
+    """Flags representing types of file system actions.
 
-    Files or directories opened before the sandboxing are not subject to these restrictions.
+    These flags enable one to restrict a sandboxed process
+    to a set of actions on files and directories.
+
+    Files or directories opened before the sandboxing
+    are not subject to these restrictions.
     """
 
     # A file can only receive these access rights:
@@ -37,11 +40,13 @@ class FSAccess(enum.IntFlag):
     """Open a file with read access."""
 
     # A directory can receive access rights related to files or directories.
-    # The following access right is applied to the directory itself, and the directories beneath it:
+    # The following access right is applied to the directory itself,
+    # and the directories beneath it:
     READ_DIR = 1 << 3
     """Open a directory or list its content."""
 
-    # However, the following access rights only apply to the content of a directory, not the directory itself:
+    # However, the following access rights only apply to the content of a directory,
+    # not the directory itself:
     REMOVE_DIR = 1 << 4
     """Remove an empty directory or rename one."""
     REMOVE_FILE = 1 << 5
@@ -61,8 +66,10 @@ class FSAccess(enum.IntFlag):
     MAKE_SYM = 1 << 12
     """Create (or rename or link) a symbolic link."""
     REFER = 1 << 13
-    """Link or rename a file from or to a different directory (i.e. reparent a file hierarchy).
-    
+    """Link or rename a file from or to a different directory.
+
+    I.e. reparent a file hierarchy.
+
     Only available if the ABI version >= 2.
     """
 
@@ -109,21 +116,31 @@ def find_generic_reason_from_platform() -> Optional[str]:
     # check OS
     system = platform.system()
     if system != "Linux":
-        return f"Landlock is a only available on Linux, it looks like you're running {system}"
+        return (
+            f"Landlock is a only available on Linux,"
+            f" it looks like you're running {system}"
+        )
 
     # check kernel version
     kernel_version = platform.release()
     kernel_version_tuple = tuple(map(int, kernel_version.split("-")[0].split(".")))
     if kernel_version_tuple < (5, 13):
-        return f"Landlock is only available in kernel 5.13 or newer, it looks like you're running {kernel_version}"
+        return (
+            f"Landlock is only available in kernel 5.13 or newer,"
+            f" it looks like you're running {kernel_version}"
+        )
 
     return None
 
 
 def find_generic_reason_from_errno(err: int) -> Optional[str]:
     errno_to_reason = {
-        errno.ENOSYS: "Cannot find Landlock syscalls - perhaps the kernel was not built with 'CONFIG_SECURITY_LANDLOCK=y'",
-        errno.EOPNOTSUPP: "Landlock has been disabled at boot time. The CONFIG_LSM configuraiton item should list 'landlock', or, 'lsm=landlock' needs to be added the kernel's command-line arguments (usually via your bootloader).",
+        errno.ENOSYS: "Cannot find Landlock syscalls - perhaps the kernel was not built"
+        " with 'CONFIG_SECURITY_LANDLOCK=y'",
+        errno.EOPNOTSUPP: "Landlock has been disabled at boot time."
+        " The CONFIG_LSM configuration item should list 'landlock',"
+        " or, 'lsm=landlock' needs to be added the kernel's"
+        " command-line arguments (usually via your bootloader).",
     }
     return errno_to_reason.get(err)
 
@@ -166,10 +183,15 @@ def create_ruleset_errcheck(result: T, func: _ctypes.CFuncPtr, arguments: Tuple)
 
 def add_rule_errcheck(result: T, func: _ctypes.CFuncPtr, arguments: Tuple) -> T:
     errno_to_reason = {
-        errno.EINVAL: "'flags' is not 0, or inconsistent access in the rule (i.e. 'landlock_path_beneath_attr.allowed_access' is not a subset of the ruleset handled accesses)",
-        errno.ENOMSG: "Empty accesses (e.g. 'landlock_path_beneath_attr.allowed_access')",
-        errno.EBADF: "'ruleset_fd' is not a file descriptor for the current thread, or a member of 'rule_attr' is not a file descriptor as expected",
-        errno.EBADFD: "'ruleset_fd' is not a ruleset file descriptor, or a member of 'rule_attr' is not the expected file descriptor type",
+        errno.EINVAL: "'flags' is not 0, or inconsistent access in the rule"
+        " (i.e. 'landlock_path_beneath_attr.allowed_access'"
+        " is not a subset of the ruleset handled accesses)",
+        errno.ENOMSG: "Empty accesses"
+        " (e.g. 'landlock_path_beneath_attr.allowed_access')",
+        errno.EBADF: "'ruleset_fd' is not a file descriptor for the current thread,"
+        " or a member of 'rule_attr' is not a file descriptor as expected",
+        errno.EBADFD: "'ruleset_fd' is not a ruleset file descriptor,"
+        " or a member of 'rule_attr' is not the expected file descriptor type",
         errno.EPERM: "'ruleset_fd' has no write access to the underlying ruleset",
         errno.EFAULT: "'rule_attr' inconsistency",
     }
@@ -183,8 +205,11 @@ def restrict_self_errcheck(result: T, func: _ctypes.CFuncPtr, arguments: Tuple) 
         errno.EINVAL: "'flags' is not 0",
         errno.EBADF: "'ruleset_fd' is not a file descriptor for the current thread",
         errno.EBADFD: "'ruleset_fd' is not a ruleset file descriptor",
-        errno.EPERM: "'ruleset_fd' has no read access to the underlying ruleset, or the current thread is not running with no_new_privs, or it doesn’t have 'CAP_SYS_ADMIN' in its namespace",
-        errno.E2BIG: "The maximum number of stacked rulesets (16) has been reached for the current thread",
+        errno.EPERM: "'ruleset_fd' has no read access to the underlying ruleset,"
+        " or the current thread is not running with no_new_privs,"
+        " or it doesn’t have 'CAP_SYS_ADMIN' in its namespace",
+        errno.E2BIG: "The maximum number of stacked rulesets (16)"
+        " has been reached for the current thread",
     }
     return syscall_errcheck(
         result, func, arguments, errno_to_reason.get(ctypes.get_errno())

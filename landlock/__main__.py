@@ -1,4 +1,5 @@
 from os.path import expanduser
+
 from landlock import FSAccess, Ruleset
 from landlock.plumbing import landlock_abi_version
 

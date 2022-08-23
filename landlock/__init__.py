@@ -31,8 +31,8 @@ class SyscallError(OSError, LandlockError):
         )
 
 
-from landlock.plumbing import FSAccess, landlock_abi_version
-from landlock.porcelain import Ruleset
+from landlock.plumbing import FSAccess, landlock_abi_version  # noqa E402
+from landlock.porcelain import Ruleset  # noqa E402
 
 __all__ = [
     "FSAccess",
