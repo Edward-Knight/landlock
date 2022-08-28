@@ -18,6 +18,7 @@ classifiers = [
     "Topic :: Software Development :: Libraries :: Python Modules",
     "Topic :: System :: Operating System Kernels :: Linux",
 ]
+requires-python = ">=3.7"
 dynamic = ["version", "description"]
 
 [project.urls]
