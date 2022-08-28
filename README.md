@@ -1,5 +1,12 @@
 # [🔒🐍 Landlock for Python](https://github.com/Edward-Knight/landlock)
 
+[![PyPI - Status](https://img.shields.io/pypi/status/landlock)](https://pypi.org/project/landlock/)
+[![PyPI - License](https://img.shields.io/pypi/l/landlock)](https://pypi.org/project/landlock/)
+[![PyPI - Python Versions](https://img.shields.io/pypi/pyversions/landlock)](https://pypi.org/project/landlock/)
+[![PyPI - Latest Project Version](https://img.shields.io/pypi/v/landlock)](https://pypi.org/project/landlock/)
+[![GitHub Workflow Status (main)](https://img.shields.io/github/workflow/status/Edward-Knight/landlock/test/main)](https://github.com/Edward-Knight/landlock/actions/workflows/test.yml?query=branch%3Amain)
+[![pre-commit.ci status](https://results.pre-commit.ci/badge/github/Edward-Knight/landlock/main.svg)](https://results.pre-commit.ci/latest/github/Edward-Knight/landlock/main)
+
 Harden your Python code by with rule-based file system access restrictions.
 
 ## Example
