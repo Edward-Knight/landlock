@@ -67,3 +67,11 @@ Landlock is great for hardening applications against both accidental programming
 and attacks.
 It won't prevent an exploited application from all malicious behavior,
 but it can stop it reading with the filesystem and interacting with device files.
+
+## Developer Information
+
+## Testing
+
+Tests are run using [pytest](https://docs.pytest.org/en/latest/).
+Each test is run in a separate subprocess using [pytest-forked](https://github.com/pytest-dev/pytest-forked)
+so Landlock rules don't conflict.
