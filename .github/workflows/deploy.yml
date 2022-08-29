@@ -1,0 +1,27 @@
+name: deploy
+on:
+  push:
+    tags:
+      - "v*"
+jobs:
+  pypi:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3"
+      - name: Install dependencies
+        run: pip install .[deploy]
+      - name: build
+        run: python -m build && ls -lh dist
+      - name: twine check
+        run: twine check --strict dist/*
+      - name: twine upload
+        run: twine upload dist/*
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: dist/*
