@@ -17,3 +17,9 @@ jobs:
         run: pip install .[test]
       - name: pytest
         run: pytest
+      - name: Codecov upload
+        uses: codecov/codecov-action@v3
+        with:
+          fail_ci_if_error: true
+          flags: ${{ matrix.python-version }}
+          verbose: true
