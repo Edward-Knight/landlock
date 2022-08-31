@@ -27,6 +27,7 @@ jobs:
           flag-name: Python ${{ matrix.python-version }}
           parallel: true
   finish:
+    needs: pytest
     runs-on: ubuntu-latest
     steps:
       - name: Coveralls finish
