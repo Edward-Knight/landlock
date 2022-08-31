@@ -218,7 +218,13 @@ def restrict_self_errcheck(result: T, func: _ctypes.CFuncPtr, arguments: Tuple) 
 
 @functools.lru_cache(1)
 def get_libc() -> ctypes.CDLL:
-    return ctypes.CDLL(None, use_errno=True)
+    try:
+        return ctypes.CDLL(None, use_errno=True)
+    except TypeError as e:
+        if platform.system() == "Windows":
+            # on Windows we get a TypeError using name=None
+            raise SyscallError(reason=find_generic_reason_from_platform()) from e
+        raise
 
 
 @functools.lru_cache(1)
