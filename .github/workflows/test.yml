@@ -2,10 +2,20 @@ name: test
 on: push
 jobs:
   pytest:
-    runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.7", "3.8", "3.9", "3.10", "3.11.0-rc.1"]
+        os: [macos-latest, ubuntu-latest, windows-latest]
+        python-version: ["3.7"]
+        include:
+          - os: ubuntu-latest
+            python-version: "3.8"
+          - os: ubuntu-latest
+            python-version: "3.9"
+          - os: ubuntu-latest
+            python-version: "3.10"
+          - os: ubuntu-latest
+            python-version: "3.11.0-rc.1"
+    runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -24,7 +34,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           path-to-lcov: coverage.lcov
-          flag-name: Python ${{ matrix.python-version }}
+          flag-name: "OS: ${{ matrix.os }}, Python: ${{ matrix.python-version }}"
           parallel: true
   finish:
     needs: pytest
