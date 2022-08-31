@@ -55,7 +55,6 @@ addopts = [
     "--cov-config=pyproject.toml",  # explicitly required to workaround bug pytest-cov#168 (or #479)
     "--cov-report=html",
     "--cov-report=term",
-    "--cov-report=xml",
     "--junit-xml=junit.xml",
 ]
 log_file_level = "DEBUG"
