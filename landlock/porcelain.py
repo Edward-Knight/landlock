@@ -18,7 +18,7 @@ from landlock.plumbing import (
 
 @dataclasses.dataclass(frozen=True)
 class Ruleset:
-    restrict_rules: FSAccess = FSAccess.all()
+    restrict_rules: FSAccess = dataclasses.field(default_factory=FSAccess.all)
 
     def __post_init__(self):
         ruleset_attr = RulesetAttr(self.restrict_rules)
