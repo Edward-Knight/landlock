@@ -30,16 +30,17 @@ class Ruleset:
         )
         object.__setattr__(self, "_fd", fd)
 
-    def allow(self, path, rules: Optional[FSAccess] = None):
+    def allow(self, *paths, rules: Optional[FSAccess] = None):
         if rules is None:
             rules = self.restrict_rules
 
-        fd = os.open(path, flags=os.O_PATH)
-        try:
-            rule_attr = PathBeneathAttr(rules, fd)
-            get_add_rule()(self._fd, 1, ctypes.byref(rule_attr), 0)
-        finally:
-            os.close(fd)
+        for path in paths:
+            fd = os.open(path, flags=os.O_PATH)
+            try:
+                rule_attr = PathBeneathAttr(rules, fd)
+                get_add_rule()(self._fd, 1, ctypes.byref(rule_attr), 0)
+            finally:
+                os.close(fd)
 
     def apply(self):
         # restrict thread from gaining privileges
