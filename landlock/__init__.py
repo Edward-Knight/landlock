@@ -1,7 +1,7 @@
 """Python interface to the Landlock Linux Security Module."""
 from typing import Optional
 
-__version__ = "1.0.0.dev3"
+__version__ = "1.0.0.dev4"
 
 
 class LandlockError(Exception):
