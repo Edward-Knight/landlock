@@ -6,7 +6,10 @@ import pytest
 
 from landlock import Ruleset, landlock_abi_version
 
-pytestmark = pytest.mark.skipif(platform.system() != "Linux", reason="requires Linux")
+pytestmark = [
+    pytest.mark.forked,
+    pytest.mark.skipif(platform.system() != "Linux", reason="requires Linux"),
+]
 
 
 def test_simple_usage(always_allowed_dir: Path, tmp_path: Path):
