@@ -21,6 +21,9 @@ jobs:
         run: twine check --strict dist/*
       - name: twine upload
         run: twine upload dist/*
+        env:
+          TWINE_USERNAME: ${{ secrets.TWINE_USERNAME }}
+          TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
