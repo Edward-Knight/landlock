@@ -1,4 +1,5 @@
 """Test initialisation code run by pytest."""
+
 import platform
 from pathlib import Path
 

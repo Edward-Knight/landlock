@@ -1,4 +1,5 @@
 """Some simple tests for Landlock."""
+
 import platform
 from pathlib import Path
 
