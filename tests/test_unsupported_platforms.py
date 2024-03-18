@@ -1,4 +1,5 @@
 """Tests Landlock on unsupported platforms (MacOS and Windows)."""
+
 import platform
 
 import pytest
