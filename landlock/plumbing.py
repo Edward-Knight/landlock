@@ -1,4 +1,5 @@
 """Landlock constants and syscalls."""
+
 import ctypes
 import enum
 import errno
