@@ -38,6 +38,11 @@ class FSAccess(enum.IntFlag):
     """Open a file with write access."""
     READ_FILE = 1 << 2
     """Open a file with read access."""
+    TRUNCATE = 1 << 14
+    """Truncate a file through a variety of means.
+
+    Only available if the ABI version >= 3.
+    """
 
     # A directory can receive access rights related to files or directories.
     # The following access right is applied to the directory itself,
@@ -79,7 +84,11 @@ class FSAccess(enum.IntFlag):
 
     @classmethod
     def all_file(cls):
-        return cls.EXECUTE | cls.WRITE_FILE | cls.READ_FILE
+        flags = cls.EXECUTE | cls.WRITE_FILE | cls.READ_FILE
+        # TRUNCATE only available in version 3
+        if landlock_abi_version() >= 3:
+            flags |= cls.TRUNCATE
+        return flags
 
     @classmethod
     def all_dir(cls):
