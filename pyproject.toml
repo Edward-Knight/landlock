@@ -26,16 +26,16 @@ Home = "https://github.com/Edward-Knight/landlock"
 
 [project.optional-dependencies]
 deploy = [
-    "build ~= 0.8",
-    "twine ~= 4.0",
+    "build ~= 1.2",
+    "twine ~= 6.1",
 ]
 dev = [
-    "pre-commit ~= 2.20",
+    "pre-commit ~= 4.2",
     "landlock[test]",
 ]
 test = [
-    "pytest ~= 8.1",
-    "pytest-cov ~= 5.0",
+    "pytest ~= 8.3",
+    "pytest-cov ~= 6.1",
     "pytest-forked ~= 1.6 ; sys_platform != 'win32'",
 ]
 
