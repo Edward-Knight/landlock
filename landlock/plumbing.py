@@ -79,6 +79,13 @@ class FSAccess(enum.IntFlag):
     Only available if the ABI version >= 2.
     """
 
+    # Finally, the following access rights apply to both files and directories:
+    IOCTL_DEV = 1 << 15
+    """Invoke ioctl commands on a character or block device.
+
+    Only available if the ABI version >= 5.
+    """
+
     @classmethod
     def all(cls):
         return cls.all_file() | cls.all_dir()
@@ -89,6 +96,9 @@ class FSAccess(enum.IntFlag):
         # TRUNCATE only available in version 3
         if landlock_abi_version() >= 3:
             flags |= cls.TRUNCATE
+        # IOCTL_DEV only available in version 5
+        if landlock_abi_version() >= 5:
+            flags |= cls.IOCTL_DEV
         return flags
 
     @classmethod
@@ -108,6 +118,9 @@ class FSAccess(enum.IntFlag):
         # REFER only available in version 2
         if landlock_abi_version() >= 2:
             flags |= cls.REFER
+        # IOCTL_DEV only available in version 5
+        if landlock_abi_version() >= 5:
+            flags |= cls.IOCTL_DEV
         return flags
 
 
