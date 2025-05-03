@@ -76,6 +76,21 @@ and attacks.
 It won't prevent an exploited application from all malicious behavior,
 but it can stop it reading with the filesystem and interacting with device files.
 
+## Features
+
+| Landlock ABI Version | Feature                   | Supported |
+|----------------------|---------------------------|-----------|
+| 1                    | Initial support           | ✅         |
+| 2                    | File renaming and linking | ✅         |
+| 3                    | File truncation           | ✅         |
+| 4                    | TCP bind and connect      | ❌         |
+| 5                    | Device IOCTL              | ✅         |
+| 6                    | Abstract UNIX socket      | ❌         |
+| 7                    | Linux audit logging       | ❌         |
+
+For more information about what these features are,
+please see the [Landlock user documentation section _Previous Limitations_](https://docs.kernel.org/userspace-api/landlock.html#previous-limitations).
+
 ## Developer Information
 
 ## Testing
