@@ -171,13 +171,12 @@ def find_generic_reason_from_errno(err: int) -> Optional[str]:
 def syscall_errcheck(
     result: T, func: _ctypes.CFuncPtr, arguments: Tuple, reason: Optional[str] = None
 ) -> T:
-    err = ctypes.get_errno()
-
     # return the result if there was no error
-    if err == 0:
+    if result != -1:
         return result
 
     # otherwise raise a SyscallError exception
+    err = ctypes.get_errno()
     name = getattr(func, "name", func.__name__)
     reason = (
         find_generic_reason_from_platform()
