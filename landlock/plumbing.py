@@ -1,5 +1,6 @@
 """Landlock constants and syscalls."""
 
+import _ctypes
 import ctypes
 import enum
 import errno
@@ -7,8 +8,6 @@ import functools
 import os
 import platform
 from typing import Callable, Optional, Tuple, TypeVar
-
-import _ctypes
 
 from landlock import SyscallError
 
